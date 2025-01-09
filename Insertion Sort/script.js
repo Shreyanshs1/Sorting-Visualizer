@@ -1,3 +1,4 @@
+const main = document.getElementById('main');
 const button = document.getElementById('btn');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -9,7 +10,6 @@ let barWidth = canvas.width / array.length;
 function generateRandomArray(size) {
     return Array(size).fill(0).map(() => Math.floor(Math.random() * 400) + 10);
 }
-
 function drawArray(array) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < array.length; i++) {
@@ -25,22 +25,24 @@ function drawArray(array) {
     }
 }
 
-
-async function selectionSort(array){
-    let minIdx;
-    for(let i=0;i<array.length;i++){
-        minIdx=i;
-        for(let j=i;j<array.length;j++){
-            if(array[j]<array[minIdx]){
-                minIdx=j;
+async function insertionSort(){
+    let i=1
+    let j;
+    while(i<array.length){
+        j=i-1;
+        let temp = array[i];
+        while(j>=0){
+            if(array[j]>temp){
+                array[j+1]=array[j];
+                drawArray(array);
+                j--;
+                await new Promise(resolve=>setTimeout(resolve,50));
+            }else{
+                break;
             }
         }
-        await new Promise(resolve=>setTimeout(resolve,100));
-        if(minIdx!=i){
-            [array[i],array[minIdx]]=[array[minIdx],array[i]];
-        }
-        drawArray(array);
-        console.log(array);
+        array[j+1]=temp;
+        i++;
     }
 }
 
@@ -48,14 +50,11 @@ function resetFunc(){
     array = generateRandomArray(40);
     drawArray(array);
 }
-
-
 button.addEventListener('click',async ()=>{
-    await selectionSort(array);
+    await insertionSort(array);
 });
 
 reset.addEventListener('click',()=>{
     resetFunc();
 })
-
 drawArray(array);
