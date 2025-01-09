@@ -15,7 +15,7 @@ function drawArray(array) {
     for (let i = 0; i < array.length; i++) {
         let x = i * barWidth;
         let y = canvas.height - array[i];
-        ctx.fillStyle = '#78A8C2';
+        ctx.fillStyle = '#d04773';
         ctx.fillRect(x, y, barWidth, array[i]);
         ctx.fillStyle = 'black';
         ctx.font = '12px Arial';
