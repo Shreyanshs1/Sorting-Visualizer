@@ -10,12 +10,18 @@ function generateRandomArray(size) {
     return Array(size).fill(0).map(() => Math.floor(Math.random() * 400) + 10);
 }
 
-function drawArray(array) {
+function drawArray(array,idx,idxx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < array.length; i++) {
         let x = i * barWidth;
         let y = canvas.height - array[i];
-        ctx.fillStyle = '#d04773';
+        if(idx===i){
+            ctx.fillStyle = '#Ff0000';
+        }else if(i===idxx){
+            ctx.fillStyle = '#00ff00';
+        }else{
+            ctx.fillStyle = '#d04773';
+        }
         ctx.fillRect(x, y, barWidth, array[i]);
         ctx.fillStyle = 'black';
         ctx.font = '12px Arial';
@@ -33,20 +39,20 @@ async function selectionSort(array){
         for(let j=i;j<array.length;j++){
             if(array[j]<array[minIdx]){
                 minIdx=j;
+                drawArray(array,i,minIdx);
+                await new Promise(resolve=>setTimeout(resolve,200));
             }
         }
-        await new Promise(resolve=>setTimeout(resolve,100));
         if(minIdx!=i){
             [array[i],array[minIdx]]=[array[minIdx],array[i]];
         }
-        drawArray(array);
         console.log(array);
     }
 }
 
 function resetFunc(){
     array = generateRandomArray(40);
-    drawArray(array);
+    drawArray(array,0,1);
 }
 
 
@@ -58,4 +64,4 @@ reset.addEventListener('click',()=>{
     resetFunc();
 })
 
-drawArray(array);
+drawArray(array,0,1);

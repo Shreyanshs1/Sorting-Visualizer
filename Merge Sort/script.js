@@ -10,12 +10,16 @@ function generateRandomArray(size) {
     return Array(size).fill(0).map(() => Math.floor(Math.random() * 400) + 10);
 }
 
-function drawArray(array) {
+function drawArray(array,idx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < array.length; i++) {
         let x = i * barWidth;
         let y = canvas.height - array[i];
-        ctx.fillStyle = '#d04773';
+        if(idx===i){
+            ctx.fillStyle = '#Ff0000';
+        }else{
+            ctx.fillStyle = '#d04773';
+        }
         ctx.fillRect(x, y, barWidth, array[i]);
         ctx.fillStyle = 'black';
         ctx.font = '12px Arial';
@@ -47,9 +51,11 @@ async function merge(array, s, mid, e) {
     }
     for (let idx = 0; idx < temp.length; idx++) {
         array[idx + s] = temp[idx];
+        drawArray(array,idx+s);
+        await new Promise(resolve => setTimeout(resolve, 50));
     }
-    drawArray(array);  // Visualize the current state
-    await new Promise(resolve => setTimeout(resolve, 100));  // Delay for visualization
+    drawArray(array,i);  // Visualize the current state
+    await new Promise(resolve => setTimeout(resolve, 50));  // Delay for visualization
 }
 
 async function mergeSort(array, s, e) {

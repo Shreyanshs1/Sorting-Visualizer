@@ -10,12 +10,16 @@ let barWidth = canvas.width / array.length;
 function generateRandomArray(size) {
     return Array(size).fill(0).map(() => Math.floor(Math.random() * 400) + 10);
 }
-function drawArray(array) {
+function drawArray(array,idx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < array.length; i++) {
         let x = i * barWidth;
         let y = canvas.height - array[i];
-        ctx.fillStyle = '#d04773';
+        if(idx===i){
+            ctx.fillStyle = '#Ff0000';
+        }else{
+            ctx.fillStyle = '#d04773';
+        }
         ctx.fillRect(x, y, barWidth, array[i]);
         ctx.fillStyle = 'black';
         ctx.font = '12px Arial';
@@ -34,7 +38,7 @@ async function insertionSort(){
         while(j>=0){
             if(array[j]>temp){
                 array[j+1]=array[j];
-                drawArray(array);
+                drawArray(array,j);
                 j--;
                 await new Promise(resolve=>setTimeout(resolve,50));
             }else{
@@ -48,7 +52,7 @@ async function insertionSort(){
 
 function resetFunc(){
     array = generateRandomArray(40);
-    drawArray(array);
+    drawArray(array,0);
 }
 button.addEventListener('click',async ()=>{
     await insertionSort(array);
@@ -57,4 +61,4 @@ button.addEventListener('click',async ()=>{
 reset.addEventListener('click',()=>{
     resetFunc();
 })
-drawArray(array);
+drawArray(array,0);
