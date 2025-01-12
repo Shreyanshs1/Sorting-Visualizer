@@ -10,13 +10,15 @@ function generateRandomArray(size) {
     return Array(size).fill(0).map(() => Math.floor(Math.random() * 400) + 10);
 }
 
-function drawArray(array,diffidx) {
+function drawArray(array,idx,idxx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < array.length; i++) {
         let x = i * barWidth;
         let y = canvas.height - array[i];
-        if(i===diffidx){
+        if(idx===i){
             ctx.fillStyle = '#Ff0000';
+        }else if(i===idxx){
+            ctx.fillStyle = '#00ff00';
         }else{
             ctx.fillStyle = '#d04773';
         }
@@ -38,9 +40,9 @@ async function partition(array,low,high){
             i++;
             [array[i],array[j]]=[array[j],array[i]];
         }
+        drawArray(array,high,j);
+        await new Promise(resolve=>setTimeout(resolve,100));
         
-        drawArray(array,high);
-        await new Promise(resolve=>setTimeout(resolve,10));
     }
     i++;
     [array[i],array[high]]=[array[high],array[i]];
@@ -57,7 +59,7 @@ async function quickSort(array,low,high){
 
 function resetFunc(){
     array = generateRandomArray(40);
-    drawArray(array,array.length-1);
+    drawArray(array,0,array.length-1);
 }
 
 button.addEventListener('click',async ()=>{
@@ -68,4 +70,4 @@ reset.addEventListener('click',()=>{
     resetFunc();
 })
 
-drawArray(array,array.length-1);
+drawArray(array,0,array.length-1);
